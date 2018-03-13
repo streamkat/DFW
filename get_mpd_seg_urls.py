@@ -1,13 +1,12 @@
 # Keith Taylor -- DirecTV systems engineering and architecture group
 # Usage: mpd_seg_check.py <Your DASH mpd url>
+
 import sys
 import time
-import pycurl
+
 import pprint
 from io import BytesIO
 from mpegdash.parser import MPEGDASHParser
-import pycurl
-from io import BytesIO
 
 
 gCount = 0
@@ -15,21 +14,21 @@ gSegments = { 'video': [], 'audio': [], 'text': []}
 
 def main():
 
-		#pp = pprint.PrettyPrinter(indent=3)
+		
 		url = sys.argv[1]
 		url = url.rstrip()
 		process_mpd(url)
 		#pp.pprint(gSegments)
-		map(get_header,gSegments['video'])
-		map(get_header,gSegments['audio'])
-		map(get_header,gSegments['text'])
+		#map(get_header,gSegments['video'])
+		#map(get_header,gSegments['audio'])
+		#map(get_header,gSegments['text'])
 		
 		
 
 def process_mpd(url):
 	global gSegments
 	base_url = url.rstrip('manifest.mpd')
-	
+	pp = pprint.PrettyPrinter(indent=3)
 	mpd = MPEGDASHParser.parse(url)
 	Periods = mpd.periods
 	for period in Periods:
@@ -59,8 +58,8 @@ def process_mpd(url):
 					elif mtype == 'text':
 						gSegments['text'].extend(list)
 
-					#print("Type: {0}".format(mtype))
-					#pp.pprint(list)
+					print("Type: {0}".format(mtype))
+					pp.pprint(list)
 					
 					#time.sleep(2)
 					#for seg in list:
@@ -88,66 +87,7 @@ def gen_playlist(seg_template, repr_id, as_ext, base_url):
 						
 	return seg_list	
 
-def get_header(url):
-	global gCount
-	print("GET {0}".format(url))
-	c = pycurl.Curl()
-	# set the URL
-	c.setopt(c.URL, url) 
-	c.setopt(c.USERAGENT, 'My big fat segment crawler -- kt456@att.com 770-617-4679')
-	# Set our header function.
-	c.setopt(c.HEADERFUNCTION, header_function)
-	# set header only
-	c.setopt(c.NOBODY, True)
-	#c.setopt(c.WRITEDATA, buffer)
-	c.perform()
-	c.close()
-	#count = count + 1
-	#body = buffer.getvalue()
-	#print(body)
-	#print gCount
-	gCount = 0
-	
-def get_segment(url): 
 
-	buffer = BytesIO()
-	c = pycurl.Curl()
-	# set the URL
-	c.setopt(c.URL, url) 
-	c.setopt(c.USERAGENT, 'My big fat segment crawler -- kt456y@att.com 770-617-4679')
-	# Set our header function.
-	c.setopt(c.HEADERFUNCTION, header_function)
-	c.setopt(c.WRITEDATA, buffer)
-	c.perform()
-	c.close()
-	#count = count + 1
-	body = buffer.getvalue()
-	return
-	
-def header_function(header_line):
-  # HTTP standard specifies that headers are encoded in iso-8859-1.
-  # On Python 2, decoding step can be skipped.
-  # On Python 3, decoding step is required.
-  global gCount
-   
-  gCount = gCount + 1
-    
-  header_line = header_line.decode('iso-8859-1')  
-  header_line = header_line.replace('\r', '');    # remove '\r'
-  header_line = header_line.replace('\n', '');    # remove '\n'
-  if gCount == 1:
-	#print(header_line)
-	if header_line != "HTTP/1.1 200 OK":
-		print( "ERROR: {0}".format(header_line))
-		
-  print(header_line)
-
-  # Header lines include the first status line (HTTP/1.x ...).
-  # We are going to ignore all lines that don't have a colon in them.
-  # This will botch headers that are split on multiple lines...
-  if ':' not in header_line:
-    return	
-	
 
 
 if __name__ == '__main__':
