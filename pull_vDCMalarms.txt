@@ -1,0 +1,20 @@
+open scp://root:ffld%21123@10.105.213.153/ -hostkey="ecdsa-sha2-nistp256 256 a7:ae:0e:c2:da:41:19:e6:86:8b:e6:42:30:39:ae:fa"
+get /var/log/vdcm/alarms alarmsffld01
+open sftp://root:ffld%21123@10.105.213.155/ -hostkey="ecdsa-sha2-nistp256 256 1b:3d:71:95:6c:27:3e:bc:b3:85:cd:10:0c:09:46:ed"
+get /var/log/vdcm/alarms alarmsffld03
+open scp://root:ffld%21123@10.105.213.156/ -hostkey="ecdsa-sha2-nistp256 256 b1:b7:41:b5:44:06:2d:d2:3e:a6:cc:e2:0e:4b:49:be"
+get /var/log/vdcm/alarms alarmsffld04
+open scp://root:ffld%21123@10.105.213.157/ -hostkey="ecdsa-sha2-nistp256 256 34:c9:00:1d:37:1e:b5:da:63:a3:37:d5:06:97:ef:6a"
+get /var/log/vdcm/alarms alarmsffld09
+open scp://root:ffld%21123@10.105.213.158/ -hostkey="ecdsa-sha2-nistp256 256 47:96:e6:8c:4c:f7:f3:ed:e9:ba:f4:93:57:c2:95:a6"
+get /var/log/vdcm/alarms alarmsffld10
+open scp://root:ffld%21123@10.105.213.135/ -hostkey="ecdsa-sha2-nistp256 256 9f:90:06:26:ec:57:81:0c:9c:ca:31:13:5d:00:cd:28"
+get /var/log/vdcm/alarms alarmsffld17
+open scp://root:ffld%21123@10.105.213.136/ -hostkey="ecdsa-sha2-nistp256 256 01:aa:6e:2b:66:c5:65:38:95:c7:1e:55:c5:03:dd:bc"
+get /var/log/vdcm/alarms alarmsffld18
+
+exit
+
+#on your windows jump box create a directory called C:\vDCM logs
+# Execute the script using this command line:
+# "C:\Program Files (x86)\WinSCP\WinSCP.exe" /log="C:\vDCM logs\WinSCP.log" /ini=nul /script="C:\vDCM logs\pull_vDCMalarms.txt"

@@ -1,0 +1,3 @@
+dumpcap -s 1522 -w ESPNU-ingress.pcap -i eno16777984 -f "dst 239.50.126.34" -a duration:30 &
+dumpcap -s 1522 -w ESPNU-egress.pcap -i eno16777984 -f "dst 239.30.3.34" -a duration:30 &
+

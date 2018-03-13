@@ -1,0 +1,14 @@
+ 590  cat ifcfg-eno50336512
+  591  cat ifcfg-eno16777984-1
+  592  cat route-eno16777984-1
+  593  vdcm-configure check
+  594  echo "net.ipv4.conf.eno16777984.rp_filter=0" >> /etc/sysctl.conf
+  595  sysctl -p
+  596  nmtui
+  597  ls /proc/sys/net/ipv4/conf/eno16777984/rp_filter
+  598  cat /proc/sys/net/ipv4/conf/eno16777984/rp_filter
+  599  cat /proc/sys/net/ipv4/conf/all/rp_filter
+  600  vi /etc/sysctl.conf
+  601  sysctl -p
+  602  cd
+  60
